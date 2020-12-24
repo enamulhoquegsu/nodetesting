@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 app.set('view engine', 'ejs');
 const bodyParser = require('body-parser');
+const today = require(__dirname + "/date.js");
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -11,19 +12,11 @@ let electronicItems = [];
 let jobs = [];
 let housings = [];
 
-let options = {
-  weekday: "long",
-  year: "numeric",
-  month: "long",
-  day: "numeric"
-}
-let today = new Date();
-today = today.toLocaleDateString("en",options);
 
 // Get request
 app.get("/", function(req, res){
   res.render("index", {
-    currentDate : today,
+    currentDate : today.getDay(),
     category : "Electronics",
     items : electronicItems
   });
@@ -59,7 +52,7 @@ app.post("/", function(req, resp){
 // GET method  && POST method for JOB
 app.get("/job", function(req, resp){
   resp.render("index", {
-    currentDate : today,
+    currentDate : today.getDay(),
     category : "Jobs",
     items : jobs
   });
@@ -72,7 +65,7 @@ app.post("/job",function(req, resp){
 // GET method  && POST method for Housing
 app.get("/housing", function(req, resp){
   resp.render("index", {
-    currentDate : today,
+    currentDate : today.getDay(),
     category : "Housing",
     items : housings
   })
@@ -85,5 +78,5 @@ app.post("/housing", function(req, resp){
 
 app.listen(3000, function() {
   console.log('app is running on port 3000');
-  console.log(today);
+
 });
